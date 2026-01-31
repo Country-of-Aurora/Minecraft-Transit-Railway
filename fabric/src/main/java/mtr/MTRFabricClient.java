@@ -24,7 +24,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.phys.Vec3;
 
 public class MTRFabricClient implements ClientModInitializer, ICustomResources {
 
@@ -37,8 +36,6 @@ public class MTRFabricClient implements ClientModInitializer, ICustomResources {
 		WorldRenderEvents.AFTER_ENTITIES.register(context -> {
 			final PoseStack matrices = context.matrixStack();
 			matrices.pushPose();
-			final Vec3 cameraPos = context.camera().getPosition();
-			matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 			RenderTrains.render(0, matrices, context.consumers());
 			matrices.popPose();
 		});

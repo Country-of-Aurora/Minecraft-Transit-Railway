@@ -25,7 +25,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -128,8 +127,6 @@ public class ForgeUtilities {
 			if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
 				PoseStack matrices = event.getPoseStack();
 				matrices.pushPose();
-				final Vec3 cameraPos = event.getCamera().getPosition();
-				matrices.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 				RenderTrains.render(0, matrices, Minecraft.getInstance().renderBuffers().bufferSource());
 				matrices.popPose();
 			} else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) {

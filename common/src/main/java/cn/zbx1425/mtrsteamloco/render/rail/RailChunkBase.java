@@ -25,6 +25,8 @@ public abstract class RailChunkBase implements Closeable {
     public HashMap<BakedRail, ArrayList<Matrix4f>> containingRails = new HashMap<>();
 
     public final String modelKey;
+    protected final int originX;
+    protected final int originZ;
 
     protected float modelYMin;
     protected float modelYMax;
@@ -36,6 +38,8 @@ public abstract class RailChunkBase implements Closeable {
     public RailChunkBase(long chunkId, String modelKey) {
         this.chunkId = chunkId;
         this.modelKey = modelKey;
+        originX = (int) (chunkId >> 32) << (4 + BakedRail.POS_SHIFT);
+        originZ = (int) (chunkId & 0xFFFFFFFFL) << (4 + BakedRail.POS_SHIFT);
         long boundary = RailModelRegistry.getProperty(modelKey).boundingBox;
         modelYMin = Float.intBitsToFloat((int)(boundary >> 32));
         modelYMax = Float.intBitsToFloat((int)(boundary & 0xFFFFFFFFL));

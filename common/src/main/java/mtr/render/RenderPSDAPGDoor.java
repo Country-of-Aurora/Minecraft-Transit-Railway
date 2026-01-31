@@ -61,7 +61,7 @@ public class RenderPSDAPGDoor<T extends BlockPSDAPGDoorBase.TileEntityPSDAPGDoor
 
 		final StoredMatrixTransformations storedMatrixTransformations = new StoredMatrixTransformations();
 		storedMatrixTransformations.add(matricesNew -> {
-			matricesNew.translate(0.5 + entity.getBlockPos().getX(), entity.getBlockPos().getY(), 0.5 + entity.getBlockPos().getZ());
+			RenderTrains.translateRelative(matricesNew, 0.5 + entity.getBlockPos().getX(), entity.getBlockPos().getY(), 0.5 + entity.getBlockPos().getZ());
 			UtilitiesClient.rotateYDegrees(matricesNew, -facing.toYRot());
 			UtilitiesClient.rotateXDegrees(matricesNew, 180);
 		});

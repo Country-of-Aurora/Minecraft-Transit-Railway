@@ -38,7 +38,11 @@ public class RenderTrainsMixin {
         // Already once per frame, since TAIL
 
         Minecraft.getInstance().level.getProfiler().popPush("NTERailwayData");
-        Matrix4f viewMatrix = new Matrix4f(matrices.last().pose());
+        org.joml.Matrix4f basePose = new org.joml.Matrix4f(matrices.last().pose());
+        basePose.m30(0);
+        basePose.m31(0);
+        basePose.m32(0);
+        Matrix4f viewMatrix = new Matrix4f(basePose);
         MainClient.railRenderDispatcher.prepareDraw();
         if (ClientConfig.getRailRenderLevel() >= 2) {
             GlStateTracker.capture();

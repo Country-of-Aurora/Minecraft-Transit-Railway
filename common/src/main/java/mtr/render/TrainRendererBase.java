@@ -52,6 +52,10 @@ public abstract class TrainRendererBase {
 		matrices.translate(0, RenderTrains.PLAYER_RENDER_OFFSET, 0);
 		final Player renderPlayer = world.getPlayerByUUID(playerId);
 		if (renderPlayer != null && (!playerId.equals(player.getUUID()) || camera.isDetached())) {
+			final Vec3 cameraPos = RenderTrains.getRenderCameraPos();
+			final double relX = playerPositionOffset.x - cameraPos.x;
+			final double relY = playerPositionOffset.y - cameraPos.y;
+			final double relZ = playerPositionOffset.z - cameraPos.z;
 			// Maybe this can stop the player from appearing moving and cape from flapping
 			renderPlayer.walkDistO = renderPlayer.walkDist;
 			renderPlayer.xCloak = renderPlayer.xCloakO = renderPlayer.xo;
@@ -59,7 +63,7 @@ public abstract class TrainRendererBase {
 			renderPlayer.zCloak = renderPlayer.zCloakO = renderPlayer.zo;
 			renderPlayer.walkAnimation.setSpeed(0);
 
-			entityRenderDispatcher.render(renderPlayer, playerPositionOffset.x, playerPositionOffset.y, playerPositionOffset.z, 0, 1, matrices, vertexConsumers, 0xF000F0);
+			entityRenderDispatcher.render(renderPlayer, relX, relY, relZ, 0, 1, matrices, vertexConsumers, 0xF000F0);
 		}
 		matrices.popPose();
 	}
@@ -91,7 +95,7 @@ public abstract class TrainRendererBase {
 	public static void applyTransform(TrainClient train, double x, double y, double z, float yaw, float pitch, float roll, boolean isBbModel) {
 		final TrainProperties trainProperties = TrainClientRegistry.getTrainProperties(train.trainId);
 		final boolean hasPitch = pitch < 0 ? train.transportMode.hasPitchAscending : train.transportMode.hasPitchDescending;
-		matrices.translate(x, y, z);
+		RenderTrains.translateRelative(matrices, x, y, z);
 		matrices.translate(0, trainProperties.railSurfaceOffset, 0);
 		UtilitiesClient.rotateY(matrices, (float) Math.PI + yaw);
 		UtilitiesClient.rotateX(matrices, (hasPitch ? pitch : 0));
